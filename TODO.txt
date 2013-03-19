@@ -1,0 +1,10 @@
+1. Add support for variables in URLs
+
+eg
+
+http://${domain}/food/
+
+
+2. Add support for HTTP auth username/password settings in tests
+- difficult because has to be passed to casper create
+- means a bit of refactoring

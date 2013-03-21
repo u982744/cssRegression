@@ -18,6 +18,7 @@
         modeHelp = require("./modules/modeHelp").modeHelp,
         getTests = require("./modules/getTests"),
         messages = require("./modules/messages"),
+        report = require("./modules/report"),
         fs = require("fs"),
         sanitise = require("./modules/tmpb.sanitise").sanitise,
         cloneObject = require("./modules/helpers").cloneObject,
@@ -210,10 +211,10 @@
                     // save current to filesystem
                     casper.captureSelector(currentBaselineDir + "screenshot-current.png", selector);
 
-                    casper.test.assertEquals(diffsStyles.elementCount, baselineElementCount, 'Check DOM structure for fragment at URL: "' + url + '" at selector: "' + selector + '" is identical to baseline.');
+                    casper.test.assertEquals(diffsStyles.elementCount, baselineElementCount, 'Check DOM structure for fragment at URL: "' + url + '" at selector: "' + selector + '" is identical to baseline.', "Current element count was " + diffsStyles.elementCount + ", baseline count is " + baselineElementCount + ".");
 
                     if (diffsStyles.elementCount === baselineElementCount) {
-                        casper.test.assertEquals(diffsStyles.diffs, [], 'Check computed styles for fragment at URL: "' + url + '" at selector "' + selector + '" are identical to baseline.');
+                        casper.test.assertEquals(diffsStyles.diffs, [], 'Check computed styles for fragment at URL: "' + url + '" at selector "' + selector + '" are identical to baseline.', "Click to view error details.", urlName + "___" + selectorName + ".html");
                     }
                 }
             }
@@ -329,7 +330,7 @@
             // utils.dump(casper.test.getFailures());
 
             casper.echo(resultsFilename);
-            this.test.renderResults(false, 0, resultsFilename);
+            this.test.renderResults(false, 0, cli.get('save') || false);
 
             casper.echo("");
             casper.echo("COMPARE BASELINE COMPLETE", "INFO");
